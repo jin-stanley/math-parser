@@ -147,12 +147,14 @@
 .ast-tree {
   font-family: var(--mono);
   font-size: 14px;
-  line-height: 1.6;
-  margin: 0;
+  line-height: 1.7;
+  color: var(--text);
 }
 
-.ast-node__header {
-  color: var(--text);
+.ast-header {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
 }
 
 .ast-node__type {
@@ -163,18 +165,39 @@
 .ast-node__op {
   color: var(--text);
   font-weight: 600;
+  padding: 1px 6px;
+  background: var(--surface-2);
+  border-radius: 4px;
+  font-size: 13px;
 }
 
 .ast-node__num {
   color: var(--ok);
+  font-weight: 600;
 }
 
-.ast-node__children {
-  padding-left: 20px;
-  border-left: 1px dashed var(--border);
+.ast-children {
+  position: relative;
   margin-left: 4px;
+  padding-left: 0;
 }
 
-.ast-field-label {
+.ast-child {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  position: relative;
+}
+
+.ast-connector {
   color: var(--text-dim);
+  flex: 0 0 auto;
+  white-space: pre;
+  user-select: none;
+  line-height: 1.7;
+}
+
+.ast-child__body {
+  flex: 1;
+  min-width: 0;
 }

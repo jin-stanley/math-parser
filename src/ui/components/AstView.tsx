@@ -1,11 +1,17 @@
 import type { AstNode, ArithmeticNode } from '../../parser';
 
 /**
- * Recursive, self-describing AST renderer.
+ * Recursive AST renderer using classic tree connectors.
  *
- * JSON.stringify works but bins type/op/children into indistinguishable
- * strings; a dedicated tree makes precedence and associativity visible
- * at a glance (the whole point of showing an AST to the user).
+ * Design choices:
+ * - No explicit `left:` / `right:` labels. BinOp/Compare always have
+ *   left first, right second, so the order is self-evident from the
+ *   tree's vertical layout. Removing the labels halves the line count
+ *   and makes the structure scannable at a glance.
+ * - `├─` / `└─` connectors make sibling vs. last-sibling visually
+ *   distinct, which is the main readability issue a bare indent has.
+ * - A subtle vertical guide line runs down each children container
+ *   to tie siblings together without the clutter of per-ancestor pipes.
  */
 
 export type AstViewProps = {
@@ -14,9 +20,9 @@ export type AstViewProps = {
 
 export function AstView({ node }: AstViewProps) {
   return (
-    <pre className="ast-tree" aria-label="AST structure">
+    <div className="ast-tree" role="tree" aria-label="AST structure">
       <AstNodeView node={node} />
-    </pre>
+    </div>
   );
 }
 
@@ -24,69 +30,60 @@ function AstNodeView({ node }: { node: AstNode | ArithmeticNode }) {
   switch (node.type) {
     case 'Num':
       return (
-        <div className="ast-node">
+        <span className="ast-header">
           <span className="ast-node__type">Num</span>
-          {' '}
           <span className="ast-node__num">{node.value}</span>
-        </div>
+        </span>
       );
+
     case 'Neg':
       return (
         <div className="ast-node">
-          <div className="ast-node__header">
+          <span className="ast-header">
             <span className="ast-node__type">Neg</span>
-          </div>
-          <div className="ast-node__children">
-            <Field label="expr">
+          </span>
+          <div className="ast-children">
+            <Child isLast>
               <AstNodeView node={node.expr} />
-            </Field>
+            </Child>
           </div>
         </div>
       );
+
     case 'BinOp':
-      return (
-        <div className="ast-node">
-          <div className="ast-node__header">
-            <span className="ast-node__type">BinOp</span>
-            {' '}
-            <span className="ast-node__op">{node.op}</span>
-          </div>
-          <div className="ast-node__children">
-            <Field label="left">
-              <AstNodeView node={node.left} />
-            </Field>
-            <Field label="right">
-              <AstNodeView node={node.right} />
-            </Field>
-          </div>
-        </div>
-      );
     case 'Compare':
       return (
         <div className="ast-node">
-          <div className="ast-node__header">
-            <span className="ast-node__type">Compare</span>
-            {' '}
+          <span className="ast-header">
+            <span className="ast-node__type">{node.type}</span>
             <span className="ast-node__op">{node.op}</span>
-          </div>
-          <div className="ast-node__children">
-            <Field label="left">
+          </span>
+          <div className="ast-children">
+            <Child>
               <AstNodeView node={node.left} />
-            </Field>
-            <Field label="right">
+            </Child>
+            <Child isLast>
               <AstNodeView node={node.right} />
-            </Field>
+            </Child>
           </div>
         </div>
       );
   }
 }
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
+function Child({
+  children,
+  isLast = false,
+}: {
+  children: React.ReactNode;
+  isLast?: boolean;
+}) {
   return (
-    <div>
-      <span className="ast-field-label">{label}: </span>
-      {children}
+    <div className={`ast-child ${isLast ? 'ast-child--last' : ''}`} role="treeitem">
+      <span className="ast-connector" aria-hidden="true">
+        {isLast ? '└─' : '├─'}
+      </span>
+      <div className="ast-child__body">{children}</div>
     </div>
   );
 }
