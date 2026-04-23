@@ -6,8 +6,10 @@ import App from '../../src/App';
 describe('App', () => {
   it('renders the default example and shows a true result', () => {
     render(<App />);
-    // Initial input is "1 + 2 = 3" → statement, value true
-    expect(screen.getByLabelText(/math expression/i)).toHaveValue('1 + 2 = 3');
+    // Initial input is "2 * 3 + 4 = 10" → statement, value true
+    expect(screen.getByLabelText(/math expression/i)).toHaveValue(
+      '2 * 3 + 4 = 10',
+    );
     expect(screen.getByText('true')).toBeInTheDocument();
     expect(screen.getByText('statement')).toBeInTheDocument();
     // AST shows the root compare node

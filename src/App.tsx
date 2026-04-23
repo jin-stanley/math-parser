@@ -5,7 +5,7 @@ import { ExpressionInput } from './ui/components/ExpressionInput';
 import { ResultDisplay } from './ui/components/ResultDisplay';
 import './ui/styles.css';
 
-const INITIAL = '1 + 2 = 3';
+const INITIAL = '2 * 3 + 4 = 10';
 
 export default function App() {
   const [input, setInput] = useState(INITIAL);
@@ -14,22 +14,32 @@ export default function App() {
   const result = useMemo(() => parse(input), [input]);
 
   return (
-    <main>
+    <main className="app">
       <header className="app-header">
-        <h1 className="app-title">Math Expression Parser</h1>
+        <span className="app-eyebrow">Nearley · Moo · TypeScript</span>
+        <h1 className="app-title">
+          Math expression <span className="app-title-accent">parser</span>
+        </h1>
         <p className="app-subtitle">
-          Built with Nearley + Moo. Type a math expression or statement and see
-          the AST it builds and the value it evaluates to.
+          Type an arithmetic expression or a comparison statement. The parser
+          tokenises, builds an AST honouring operator precedence, and evaluates
+          it in place.
         </p>
       </header>
 
       <ExpressionInput value={input} onChange={setInput} />
 
-      <ResultDisplay input={input} result={result} />
+      <section className="block">
+        <span className="block-label">
+          {result.ok ? 'Result' : 'Error'}
+          {result.ok && <span className="kind-pill">{result.kind}</span>}
+        </span>
+        <ResultDisplay input={input} result={result} />
+      </section>
 
       {result.ok && (
-        <section className="card">
-          <h2>AST</h2>
+        <section className="block">
+          <span className="block-label">AST</span>
           <AstView node={result.ast} />
         </section>
       )}

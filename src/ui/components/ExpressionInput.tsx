@@ -18,10 +18,10 @@ export function ExpressionInput({ value, onChange }: ExpressionInputProps) {
   const inputId = useId();
 
   return (
-    <section className="card">
-      <h2>
-        <label htmlFor={inputId}>Expression</label>
-      </h2>
+    <section className="block">
+      <label htmlFor={inputId} className="block-label">
+        Expression
+      </label>
       <textarea
         id={inputId}
         className="expression-input"
@@ -33,18 +33,23 @@ export function ExpressionInput({ value, onChange }: ExpressionInputProps) {
         autoCapitalize="off"
         rows={1}
         aria-label="Math expression to parse"
+        placeholder="e.g. 2 * (3 + 4) = 14"
       />
       <div className="example-row" aria-label="Example inputs">
-        {EXAMPLES.map((ex) => (
-          <button
-            key={ex}
-            type="button"
-            className="example-chip"
-            onClick={() => onChange(ex)}
-          >
-            {ex}
-          </button>
-        ))}
+        {EXAMPLES.map((ex) => {
+          const isActive = ex === value;
+          return (
+            <button
+              key={ex}
+              type="button"
+              className="example-chip"
+              aria-pressed={isActive}
+              onClick={() => onChange(ex)}
+            >
+              {ex}
+            </button>
+          );
+        })}
       </div>
     </section>
   );
