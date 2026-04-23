@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
-import { parse } from '../parser';
-import type { ParseResult } from '../parser';
+import { parse } from '@/parser';
+import type { ParseResult } from '@/parser';
 
 /**
  * Parse on every input change, memoised so the same input doesn't

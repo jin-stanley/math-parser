@@ -1,5 +1,5 @@
 import { useId } from 'react';
-import { t } from '../i18n';
+import { t } from '@/i18n';
 
 const EXAMPLES = [
   '1 + 2 = 3',

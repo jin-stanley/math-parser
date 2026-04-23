@@ -1,5 +1,5 @@
-import type { AstNode, ArithmeticNode } from '../parser';
-import { t } from '../i18n';
+import type { AstNode, ArithmeticNode } from '@/parser';
+import { t } from '@/i18n';
 
 /**
  * Recursive AST renderer using classic tree connectors.

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { parse } from '../../src/parser';
+import { parse } from '@/parser';
 
 describe('edge cases', () => {
   it('handles unary minus', () => {

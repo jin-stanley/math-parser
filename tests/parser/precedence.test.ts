@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { parse } from '../../src/parser';
+import { parse } from '@/parser';
 
 /** Helper: assert parse ok and return the numeric/boolean value. */
 function value(input: string): number | boolean {

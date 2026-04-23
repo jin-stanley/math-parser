@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { parse, tokenize, prettyPrint } from '../../src/parser';
+import { parse, tokenize, prettyPrint } from '@/parser';
 
 /**
  * These tests lock the behaviour of two library utilities that sit

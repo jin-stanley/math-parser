@@ -1,5 +1,5 @@
-import type { ParseResult } from '../parser';
-import { caretLine, extractLine, formatValue, resultClass } from '../utils/format';
+import type { ParseResult } from '@/parser';
+import { caretLine, extractLine, formatValue, resultClass } from '@/utils/format';
 
 export type ResultDisplayProps = {
   input: string;
