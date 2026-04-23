@@ -5,9 +5,9 @@ import type { ParseResult } from './types';
 import type { AstNode } from './ast';
 
 type NearleyParseError = Error & {
-  /** Token index into Nearley's stream — NOT a character offset. */
+  // Token index into Nearley's stream (not a character offset).
   offset?: number;
-  /** Moo token; its own `offset` is the character offset we want. */
+  // Moo token; its `offset` is the character offset we want.
   token?: { line?: number; col?: number; text?: string; offset?: number };
 };
 
@@ -15,19 +15,12 @@ function isParseError(err: unknown): err is NearleyParseError {
   return err instanceof Error;
 }
 
-/**
- * Derive a sensible error location from whatever Nearley throws.
- *
- * `err.token` is present for unexpected-token errors (most cases).
- * For unexpected-EOF the token is missing; we fall back to the end
- * of the input so the caret lands on the correct character.
- */
 function locateError(err: NearleyParseError, input: string): {
   line: number;
   col: number;
   offset: number;
 } {
-  // Case 1: Nearley attached the offending Moo token — use its char offset.
+  // Most errors: Nearley attached the offending Moo token.
   if (err.token && typeof err.token.offset === 'number') {
     return {
       line: err.token.line ?? 1,
@@ -36,9 +29,9 @@ function locateError(err: NearleyParseError, input: string): {
     };
   }
 
-  // Case 2: Moo itself threw on an un-tokenizable char. Its message has the
-  // form "invalid syntax at line L col C: X" — parse that to avoid pointing
-  // at the end of input.
+  // Moo itself threw on an un-tokenizable char. Its message has the form
+  // "invalid syntax at line L col C: X"; parse it so the caret still lands
+  // on the bad character instead of end-of-input.
   const mooMatch = err.message.match(/line (\d+) col (\d+)/);
   if (mooMatch) {
     const line = Number(mooMatch[1]);
@@ -46,7 +39,7 @@ function locateError(err: NearleyParseError, input: string): {
     return { line, col, offset: offsetFromLineCol(input, line, col) };
   }
 
-  // Case 3: Genuine unexpected-EOF — fall back to the end of input.
+  // Unexpected end of input: point at the end.
   const offset = input.length;
   return {
     line: deriveLine(input, offset),
@@ -84,32 +77,22 @@ function deriveCol(input: string, offset: number): number {
   return col;
 }
 
-/**
- * Nearley dumps a multi-line report like:
- *
- *   Syntax error at line 1 col 8:
- *     1 + (2 = 3
- *            ^
- *   Unexpected EQ token: "=". Instead, I was expecting...
- *
- * The location is already shown by the UI, and the "Instead, I was
- * expecting" tail is noisy. Keep just the "Unexpected X" sentence if
- * we can find it; otherwise fall back to the first line.
- */
+// Nearley errors look like:
+//   Syntax error at line 1 col 8:
+//     1 + (2 = 3
+//            ^
+//   Unexpected EQ token: "=". Instead, I was expecting one of ...
+// The UI shows line/col separately, so keep just the "Unexpected X" line.
 function shortenMessage(raw: string): string {
   const unexpected = raw.match(/Unexpected [^\n]+/);
   if (unexpected) {
-    // Trim at the first period or "Instead," to drop the "expecting..." tail.
     return unexpected[0].replace(/\.\s+Instead,.*$/, '.');
   }
   const firstLine = raw.split('\n')[0] ?? raw;
   return firstLine.replace(/^Syntax error at /, '');
 }
 
-/**
- * Parse + evaluate a math expression. Never throws: all failures
- * (syntax, ambiguity, division by zero) are returned as ParseErr.
- */
+// parse() never throws; all failures come back as ParseErr.
 export function parse(input: string): ParseResult {
   if (input.trim().length === 0) {
     return {
@@ -140,7 +123,7 @@ export function parse(input: string): ParseResult {
   const results = parser.results as AstNode[];
 
   if (results.length === 0) {
-    // Valid prefix but grammar expected more — treat as unexpected EOF.
+    // Valid prefix but grammar expected more: unexpected EOF.
     return {
       ok: false,
       message: 'Unexpected end of input',

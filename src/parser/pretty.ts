@@ -15,8 +15,7 @@ export function prettyPrint(node: AstNode): string {
     case 'BinOp':
       return `(${printArith(node.left)} ${node.op} ${printArith(node.right)})`;
     case 'Compare':
-      // Top-level comparison doesn't need outer parens — there's nothing
-      // to be ambiguous with above it.
+      // Top-level comparison doesn't need outer parens.
       return `${printArith(node.left)} ${node.op} ${printArith(node.right)}`;
   }
 }

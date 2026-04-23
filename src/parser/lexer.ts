@@ -27,7 +27,7 @@ type MooToken = NonNullable<ReturnType<MooLexerShape['next']>>;
  * Nearley expects an object with `next/save/reset/formatError/has`.
  * Wrapping the Moo lexer lets us silently drop whitespace tokens
  * *without* leaking them into every grammar rule. Offsets are preserved
- * because we only skip — we never rewrite the input.
+ * because we only skip tokens, we never rewrite the input.
  */
 class WhitespaceFilteringLexer {
   private readonly inner: MooLexerShape;
@@ -67,14 +67,8 @@ export const lexer = new WhitespaceFilteringLexer(mooLexer);
 
 /**
  * Tokenise an input string without feeding it to the parser.
- *
- * This exists so the UI can display the token stream alongside the
- * AST — showing lexer output gives visibility into the first phase
- * of the pipeline (the thing Moo actually does) that's invisible
- * once you look at the AST alone.
- *
- * Throws if the input contains an un-tokenisable character. Callers
- * in parse.ts catch this and convert it into a ParseErr.
+ * Useful for showing the lexer output separately from the AST.
+ * Throws if the input contains an un-tokenisable character.
  */
 export type DisplayToken = {
   readonly type: string;
