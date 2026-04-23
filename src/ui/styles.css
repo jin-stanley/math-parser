@@ -1,65 +1,105 @@
-/* ─── Layout ──────────────────────────────────────────────── */
+/* ─── Shell ───────────────────────────────────────────────── */
 
 .app {
   display: flex;
   flex-direction: column;
-  gap: 56px;
 }
 
-.app-header {
+/* ─── Brand header (logo-like wordmark above dark banner) ─── */
+
+.app-brandbar {
+  background: var(--surface);
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.app-brandbar-inner {
+  max-width: 1100px;
+  margin: 0 auto;
   display: flex;
-  flex-direction: column;
-  gap: 12px;
+  align-items: baseline;
+  gap: 14px;
 }
 
-.app-eyebrow {
+.app-brand-name {
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: -0.005em;
+  color: var(--text);
+  line-height: 1;
+}
+
+.app-brand-tag {
   font-size: 11px;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--text-mute);
+  color: var(--accent);
+  line-height: 1;
+}
+
+/* ─── Title banner ────────────────────────────────────────── */
+
+.app-banner {
+  background: var(--banner);
+  color: var(--banner-text);
+  padding: 28px 24px;
+}
+
+.app-banner-inner {
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
 .app-title {
-  font-family: var(--serif);
-  font-weight: 400;
-  font-size: clamp(40px, 6vw, 56px);
-  line-height: 1.02;
-  letter-spacing: -0.02em;
+  font-family: var(--sans);
+  font-weight: 200;
+  font-size: clamp(28px, 4vw, 36px);
+  line-height: 1.15;
+  letter-spacing: -0.005em;
   margin: 0;
+  color: var(--banner-text);
+}
+
+/* ─── Main content ────────────────────────────────────────── */
+
+.app-main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.app-intro {
   color: var(--text);
-  text-wrap: balance;
-}
-
-.app-title-accent {
-  font-style: italic;
-  color: var(--accent);
-}
-
-.app-subtitle {
-  color: var(--text-dim);
+  font-size: 16px;
+  line-height: 1.6;
+  max-width: 72ch;
   margin: 0;
-  max-width: 56ch;
-  line-height: 1.55;
 }
 
-/* ─── Shared blocks (no more stacked cards) ───────────────── */
+/* ─── Section blocks ──────────────────────────────────────── */
 
 .block {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
 }
 
-.block-label {
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--text-mute);
+.block-heading {
+  font-family: var(--sans);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-dim);
+  margin: 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 10px;
 }
 
 /* ─── Expression input ────────────────────────────────────── */
@@ -68,20 +108,19 @@
   width: 100%;
   display: block;
   background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 18px 20px;
+  border: 1px solid var(--border-strong);
+  border-radius: 0;
+  padding: 14px 16px;
   font-family: var(--mono);
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
-  letter-spacing: -0.01em;
   color: var(--text);
   outline: none;
   resize: vertical;
-  min-height: 60px;
+  min-height: 52px;
   transition:
-    border-color 150ms ease,
-    background 150ms ease;
+    border-color 120ms ease,
+    box-shadow 120ms ease;
 }
 
 .expression-input::placeholder {
@@ -90,40 +129,40 @@
 }
 
 .expression-input:hover:not(:focus) {
-  border-color: var(--border-strong);
+  border-color: var(--text-dim);
 }
 
 .expression-input:focus {
   border-color: var(--accent);
-  background: var(--surface);
+  box-shadow: 0 0 0 1px var(--accent);
 }
 
 .example-row {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+  margin-top: 4px;
 }
 
 .example-chip {
   font-family: var(--mono);
-  font-size: 12px;
-  background: transparent;
+  font-size: 13px;
+  background: var(--surface);
   border: 1px solid var(--border);
-  color: var(--text-dim);
-  padding: 5px 10px;
-  border-radius: 6px;
+  color: var(--link);
+  padding: 8px 12px;
+  min-height: 36px;
+  border-radius: 2px;
   cursor: pointer;
   transition:
-    color 150ms ease,
-    border-color 150ms ease,
-    transform 120ms ease,
-    background 150ms ease;
+    color 120ms ease,
+    border-color 120ms ease,
+    background 120ms ease;
 }
 
 .example-chip:hover {
-  color: var(--text);
-  border-color: var(--border-strong);
-  background: var(--surface);
+  color: var(--accent);
+  border-color: var(--accent);
 }
 
 .example-chip:focus-visible {
@@ -132,25 +171,26 @@
 }
 
 .example-chip:active {
-  transform: scale(0.97);
+  background: var(--accent-soft);
 }
 
 .example-chip[aria-pressed='true'] {
   color: var(--accent);
   border-color: var(--accent);
   background: var(--accent-soft);
+  font-weight: 600;
 }
 
-/* ─── Result (now inline, not a card) ─────────────────────── */
+/* ─── Result ──────────────────────────────────────────────── */
 
 .result-inline {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   gap: 12px;
   font-family: var(--mono);
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 600;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.005em;
 }
 
 .result-value--true {
@@ -164,15 +204,15 @@
 }
 
 .kind-pill {
-  font-family: var(--mono);
-  font-size: 10px;
-  font-weight: 500;
-  padding: 3px 8px;
-  border-radius: 999px;
-  background: var(--surface-2);
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  background: transparent;
+  border: 1px solid var(--border-strong);
   color: var(--text-dim);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
 }
 
 /* ─── Error display ───────────────────────────────────────── */
@@ -185,33 +225,34 @@
 
 .error-source {
   font-family: var(--mono);
-  font-size: 16px;
+  font-size: 15px;
   background: var(--err-soft);
-  border: 1px solid color-mix(in srgb, var(--err) 18%, transparent);
-  border-radius: 8px;
-  padding: 14px 18px;
+  border-left: 3px solid var(--err);
+  padding: 12px 16px;
   white-space: pre;
   overflow-x: auto;
   color: var(--text);
   line-height: 1.5;
   margin: 0;
+  border-radius: 0;
 }
 
 .error-caret-line {
   color: var(--err);
   letter-spacing: 0;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .error-message {
-  font-family: var(--mono);
-  font-size: 14px;
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 600;
   color: var(--err);
 }
 
 .error-location {
   color: var(--text-mute);
-  font-size: 12px;
+  font-size: 13px;
   font-family: var(--mono);
 }
 
@@ -222,11 +263,11 @@
   font-size: 14px;
   line-height: 1.7;
   color: var(--text);
-  background: var(--surface);
+  background: var(--surface-2);
   border: 1px solid var(--border);
-  border-radius: 8px;
   padding: 20px 22px;
   overflow-x: auto;
+  border-radius: 0;
 }
 
 .ast-header {
@@ -238,20 +279,19 @@
 .ast-node__type {
   color: var(--accent);
   font-weight: 600;
-  letter-spacing: -0.01em;
 }
 
 .ast-node__op {
   color: var(--text);
-  font-weight: 600;
+  font-weight: 700;
   padding: 0 6px;
-  background: var(--surface-2);
-  border-radius: 4px;
+  background: var(--surface);
+  border: 1px solid var(--border);
   font-size: 13px;
 }
 
 .ast-node__num {
-  color: var(--ok);
+  color: var(--text);
   font-weight: 600;
 }
 
@@ -277,4 +317,22 @@
 .ast-child__body {
   flex: 1;
   min-width: 0;
+}
+
+/* ─── Footer (thin corporate strip) ───────────────────────── */
+
+.app-footer {
+  border-top: 1px solid var(--border);
+  padding: 16px 24px;
+  font-size: 12px;
+  color: var(--text-mute);
+}
+
+.app-footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
 }

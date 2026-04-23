@@ -1,28 +1,31 @@
 :root {
-  /* Warm bone palette — editorial minimalism */
-  --bg: #fbfbfa;
+  /* LexisNexis Risk Solutions palette */
+  --bg: #ffffff;
   --surface: #ffffff;
-  --surface-2: #f4f3ef;
-  --border: #e7e5df;
-  --border-strong: #d6d3cb;
-  --text: #1a1916;
-  --text-dim: #78756d;
-  --text-mute: #aaa7a0;
-  --accent: #b25a3a; /* warm terracotta — not "AI blue" */
-  --accent-soft: #f4ebe4;
-  --ok: #4d7a3e;
-  --ok-soft: #edf1e7;
-  --err: #a83a2a;
-  --err-soft: #f6e7e3;
+  --surface-2: #f5f5f5;
+  --border: #e4e4e4;
+  --border-strong: #cccccc;
+  --banner: #444444;
+  --banner-text: #ffffff;
+  --text: #333333;
+  --text-dim: #696969;
+  --text-mute: #999999;
+  --link: #777777;
+  --accent: #ed1c24; /* LexisNexis brand red */
+  --accent-hover: #d73527;
+  --accent-soft: #fdecec;
+  --ok: #3a7a3e;
+  --ok-soft: #eaf3ea;
+  --err: #d73527;
+  --err-soft: #fdecec;
 
-  --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --serif: 'Instrument Serif', 'Lyon Text', Georgia, serif;
+  --sans: 'Source Sans 3', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', sans-serif;
   --mono: 'JetBrains Mono', 'SF Mono', ui-monospace, Consolas, monospace;
 
   color-scheme: light;
   font-family: var(--sans);
-  font-size: 15px;
-  font-feature-settings: 'cv11', 'ss01', 'ss03';
+  font-size: 16px;
   line-height: 1.55;
   color: var(--text);
   background: var(--bg);
@@ -34,20 +37,24 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #131210;
-    --surface: #1a1816;
-    --surface-2: #201e1b;
-    --border: #2c2925;
-    --border-strong: #3a3732;
-    --text: #ede9e1;
-    --text-dim: #8f8b82;
-    --text-mute: #5e5a52;
-    --accent: #d98866;
-    --accent-soft: #2a1f1a;
-    --ok: #8dae78;
-    --ok-soft: #1d2419;
-    --err: #d87866;
-    --err-soft: #2a1a17;
+    --bg: #151515;
+    --surface: #1d1d1d;
+    --surface-2: #242424;
+    --border: #2e2e2e;
+    --border-strong: #404040;
+    --banner: #2a2a2a;
+    --banner-text: #ffffff;
+    --text: #e4e4e4;
+    --text-dim: #a0a0a0;
+    --text-mute: #707070;
+    --link: #a0a0a0;
+    --accent: #ed1c24;
+    --accent-hover: #ff4049;
+    --accent-soft: #2a1415;
+    --ok: #7ea87e;
+    --ok-soft: #1a2119;
+    --err: #ff4049;
+    --err-soft: #2a1415;
     color-scheme: dark;
   }
 }
@@ -59,30 +66,14 @@
 body {
   margin: 0;
   min-height: 100vh;
-  /* Ambient warm tint for depth */
-  background:
-    radial-gradient(
-      ellipse at 20% 0%,
-      color-mix(in srgb, var(--accent) 5%, transparent) 0%,
-      transparent 50%
-    ),
-    var(--bg);
-  background-attachment: fixed;
+  background: var(--bg);
 }
 
 #root {
-  max-width: 860px;
-  margin: 0 auto;
-  padding: 80px 24px 120px;
-}
-
-@media (max-width: 600px) {
-  #root {
-    padding: 48px 20px 80px;
-  }
+  min-height: 100vh;
 }
 
 ::selection {
   background: var(--accent-soft);
-  color: var(--text);
+  color: var(--accent);
 }

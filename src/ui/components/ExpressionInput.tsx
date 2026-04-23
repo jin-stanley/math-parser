@@ -19,9 +19,9 @@ export function ExpressionInput({ value, onChange }: ExpressionInputProps) {
 
   return (
     <section className="block">
-      <label htmlFor={inputId} className="block-label">
-        Expression
-      </label>
+      <h2 className="block-heading">
+        <label htmlFor={inputId}>Expression</label>
+      </h2>
       <textarea
         id={inputId}
         className="expression-input"
