@@ -1,4 +1,6 @@
 export { parse } from './parse';
+export { tokenize } from './lexer';
+export { prettyPrint } from './pretty';
 export type {
   AstNode,
   ArithmeticNode,
