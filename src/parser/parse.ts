@@ -1,6 +1,8 @@
 import nearley from 'nearley';
 import grammar from './grammar';
 import { evaluate, EvaluationError } from './evaluator';
+import { tokenize } from './lexer';
+import { prettyPrint } from './pretty';
 import type { ParseResult } from './types';
 import type { AstNode } from './ast';
 
@@ -166,7 +168,12 @@ export function parse(input: string): ParseResult {
 
   try {
     const value = evaluate(ast);
-    return { ok: true, ast, kind, value };
+    // Tokenising a second time for display purposes — the parser already
+    // consumed the stream to build the AST, and this gives us a clean
+    // array for the UI without hooking into nearley's internals.
+    const tokens = tokenize(input);
+    const prettyForm = prettyPrint(ast);
+    return { ok: true, ast, tokens, prettyForm, kind, value };
   } catch (err) {
     if (err instanceof EvaluationError) {
       return {

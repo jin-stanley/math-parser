@@ -65,4 +65,41 @@ class WhitespaceFilteringLexer {
 
 export const lexer = new WhitespaceFilteringLexer(mooLexer);
 
+/**
+ * Tokenise an input string without feeding it to the parser.
+ *
+ * This exists so the UI can display the token stream alongside the
+ * AST — showing lexer output gives visibility into the first phase
+ * of the pipeline (the thing Moo actually does) that's invisible
+ * once you look at the AST alone.
+ *
+ * Throws if the input contains an un-tokenisable character. Callers
+ * in parse.ts catch this and convert it into a ParseErr.
+ */
+export type DisplayToken = {
+  readonly type: string;
+  readonly text: string;
+  readonly offset: number;
+  readonly line: number;
+  readonly col: number;
+};
+
+export function tokenize(input: string): DisplayToken[] {
+  const inner = mooLexer.reset(input);
+  const tokens: DisplayToken[] = [];
+  while (true) {
+    const tok = inner.next();
+    if (!tok) break;
+    if (tok.type === 'WS' || tok.type === 'NL') continue;
+    tokens.push({
+      type: tok.type ?? 'UNKNOWN',
+      text: tok.text,
+      offset: tok.offset,
+      line: tok.line,
+      col: tok.col,
+    });
+  }
+  return tokens;
+}
+
 export type { MooToken };

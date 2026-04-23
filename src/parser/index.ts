@@ -10,3 +10,4 @@ export type {
   NumNode,
 } from './ast';
 export type { ParseErr, ParseOk, ParseResult } from './types';
+export type { DisplayToken } from './lexer';

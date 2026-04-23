@@ -319,6 +319,98 @@
   min-width: 0;
 }
 
+/* ─── Parsed-as line ──────────────────────────────────────── */
+
+.parsed-as {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin: 4px 0 0;
+  flex-wrap: wrap;
+}
+
+.parsed-as__label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+}
+
+.parsed-as__code {
+  font-family: var(--mono);
+  font-size: 15px;
+  color: var(--text);
+  background: var(--surface-2);
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+}
+
+/* ─── Tree + Token Stream grid ────────────────────────────── */
+
+.tree-and-tokens {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 16px;
+  align-items: stretch;
+}
+
+@media (max-width: 800px) {
+  .tree-and-tokens {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ─── Token stream ────────────────────────────────────────── */
+
+.token-stream {
+  font-family: var(--mono);
+  font-size: 13px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  padding: 16px 18px;
+  overflow: auto;
+  max-height: 360px;
+}
+
+.token-stream__header {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 16px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 8px;
+}
+
+.token-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 16px;
+  padding: 3px 0;
+  align-items: baseline;
+}
+
+.token-type {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.token-text {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.token-pos {
+  color: var(--text-mute);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
 /* ─── Footer (thin corporate strip) ───────────────────────── */
 
 .app-footer {

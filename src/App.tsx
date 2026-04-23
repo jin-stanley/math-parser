@@ -3,6 +3,7 @@ import { parse } from './parser';
 import { AstView } from './ui/components/AstView';
 import { ExpressionInput } from './ui/components/ExpressionInput';
 import { ResultDisplay } from './ui/components/ResultDisplay';
+import { TokenStream } from './ui/components/TokenStream';
 import './ui/styles.css';
 
 const INITIAL = '2 * 3 + 4 = 10';
@@ -44,12 +45,21 @@ export default function App() {
             {result.ok && <span className="kind-pill">{result.kind}</span>}
           </h2>
           <ResultDisplay input={input} result={result} />
+          {result.ok && (
+            <p className="parsed-as">
+              <span className="parsed-as__label">Parsed as</span>
+              <code className="parsed-as__code">{result.prettyForm}</code>
+            </p>
+          )}
         </section>
 
         {result.ok && (
           <section className="block">
             <h2 className="block-heading">Abstract Syntax Tree</h2>
-            <AstView node={result.ast} />
+            <div className="tree-and-tokens">
+              <AstView node={result.ast} />
+              <TokenStream tokens={result.tokens} />
+            </div>
           </section>
         )}
       </main>
