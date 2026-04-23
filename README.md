@@ -80,22 +80,36 @@ error messages point at the original column.
 ## Architecture
 
 ```
-src/parser/
-├── lexer.ts       Moo tokenizer plus a tiny wrapper that filters whitespace
-├── grammar.ne     Nearley grammar (source)
-├── grammar.ts     Generated from grammar.ne (git-ignored)
-├── ast.ts         AST node types and constructor helpers
-├── evaluator.ts   AST → number | boolean
-├── parse.ts       Public parse() API; catches all errors, returns Result
-├── pretty.ts      Optional: AST → fully parenthesised source
-└── index.ts       Re-exports
-
-src/ui/
-├── styles.css
-└── components/
-    ├── ExpressionInput.tsx
-    ├── AstView.tsx
-    └── ResultDisplay.tsx
+src/
+├── parser/                  Standalone library, no React dependencies
+│   ├── lexer.ts             Moo tokenizer + whitespace-filtering wrapper
+│   ├── grammar.ne           Nearley grammar (source)
+│   ├── grammar.ts           Generated from grammar.ne (git-ignored)
+│   ├── ast.ts               AST node types and constructor helpers
+│   ├── evaluator.ts         AST → number | boolean
+│   ├── parse.ts             Public parse() API; returns a Result
+│   ├── pretty.ts            AST → fully parenthesised source
+│   └── index.ts             Re-exports
+│
+├── components/              React UI, one file per component
+│   ├── ExpressionInput.tsx
+│   ├── AstView.tsx
+│   └── ResultDisplay.tsx
+│
+├── hooks/
+│   └── useParsedExpression.ts   useMemo-wrapped parse()
+│
+├── utils/
+│   └── format.ts            formatValue / extractLine / caretLine / resultClass
+│
+├── i18n/
+│   ├── en.ts                All UI strings, typed
+│   └── index.ts             Active locale
+│
+├── App.tsx                  Page composition
+├── main.tsx                 React root
+├── styles.css               Component styles
+└── index.css                Global tokens + reset
 
 tests/
 ├── parser/

@@ -1,4 +1,5 @@
 import { useId } from 'react';
+import { t } from '../i18n';
 
 const EXAMPLES = [
   '1 + 2 = 3',
@@ -20,7 +21,7 @@ export function ExpressionInput({ value, onChange }: ExpressionInputProps) {
   return (
     <section className="block">
       <h2 className="block-heading">
-        <label htmlFor={inputId}>Expression</label>
+        <label htmlFor={inputId}>{t.input.label}</label>
       </h2>
       <textarea
         id={inputId}
@@ -32,10 +33,10 @@ export function ExpressionInput({ value, onChange }: ExpressionInputProps) {
         autoCorrect="off"
         autoCapitalize="off"
         rows={1}
-        aria-label="Math expression to parse"
-        placeholder="e.g. 2 * (3 + 4) = 14"
+        aria-label={t.input.ariaLabel}
+        placeholder={t.input.placeholder}
       />
-      <div className="example-row" aria-label="Example inputs">
+      <div className="example-row" aria-label={t.input.ariaExamples}>
         {EXAMPLES.map((ex) => {
           const isActive = ex === value;
           return (

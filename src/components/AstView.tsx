@@ -1,4 +1,5 @@
-import type { AstNode, ArithmeticNode } from '../../parser';
+import type { AstNode, ArithmeticNode } from '../parser';
+import { t } from '../i18n';
 
 /**
  * Recursive AST renderer using classic tree connectors.
@@ -20,7 +21,7 @@ export type AstViewProps = {
 
 export function AstView({ node }: AstViewProps) {
   return (
-    <div className="ast-tree" role="tree" aria-label="AST structure">
+    <div className="ast-tree" role="tree" aria-label={t.ast.ariaLabel}>
       <AstNodeView node={node} />
     </div>
   );
